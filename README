@@ -1,0 +1,6 @@
+2D frame analysis code in MATLAB, based on lectures given as part of the 4th year Finite 
+element analysis course at The University of Bath (2010/11 and 2011/12).
+
+Notes are at http://people.bath.ac.uk/av236 or http://www.visrolia.net/bath
+
+The script `run.m' starts the analysis.
