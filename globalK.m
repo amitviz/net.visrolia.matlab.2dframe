@@ -1,6 +1,6 @@
 function Kg = globalK(nodes,elements,Ae,Ee,Ie)
 
-Kg = zeros(size(nodes,1)*3);
+Kg = SparseMatrix;
 
 for el = 1:size(elements,1)
     L = elementL(nodes,elements,el);
@@ -15,7 +15,7 @@ for el = 1:size(elements,1)
 
     % Scatter
     DOFe = kron((3*(elements(el,:)-1)),ones(1,3)) + kron(ones(1,2),1:3);
-    Kg(DOFe,DOFe) = Kg(DOFe,DOFe) + ke;
+    Kg = Kg.append(ke,DOFe);
 
 end
 

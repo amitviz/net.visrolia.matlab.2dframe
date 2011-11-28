@@ -1,9 +1,6 @@
 function [u,R] = solve(nodes,elements,Ae,Ee,Ie,Fn,BCn,ABCn)
 
 Kg = globalK(nodes,elements,Ae,Ee,Ie);
-if all(all(Kg == Kg'))
-    disp('Global stiffness matrix is not symmetric.');
-end
 
 Fg = globalF(nodes,Fn);
 
@@ -14,6 +11,9 @@ Fg = globalF(nodes,Fn);
 us = Ks\Fs;
 
 u = T'*us;
+Kg = Kg.toSparse;
 R = Kg*u;
 
+u = full(u);
+R = full(R);
 return;

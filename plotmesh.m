@@ -31,7 +31,7 @@ switch optargin
 end
 
 % Header for output data
-disp(' e  ex_max    M_max     Rx1       Ry1       M1        Rx2       Ry2       M2      ');
+disp('  e  ex_max    M_max     Rx1       Ry1       M1        Rx2       Ry2       M2      ');
 
 % Interpolation resolution
 segments = 20;
@@ -78,7 +78,7 @@ for e = 1:nel
     
     % Nodal reaction forces on the current element
     Re = Ke*uie;
-    fprintf('%2i %9.2e %9.2e %9.2e %9.2e %9.2e %9.2e %9.2e %9.2e\n',e,ex_max,M_max,Re(1),Re(2),Re(3),Re(4),Re(5),Re(6));
+    fprintf('%3i %9.2e %9.2e %9.2e %9.2e %9.2e %9.2e %9.2e %9.2e\n',e,ex_max,M_max,Re(1),Re(2),Re(3),Re(4),Re(5),Re(6));
    
     Nc = coordinate_interp(-1:(2/segments):1);
     xi = Nc*xn; % Interpolated coordinates

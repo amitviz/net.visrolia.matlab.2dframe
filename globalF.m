@@ -1,11 +1,11 @@
 function f = globalF(nodes,fn)
 
-f = zeros(size(nodes,1)*3,1);
+f = SparseMatrix;
 
 for i = 1:size(fn,1)
     node = fn(i,1);
     dof = 3*(node-1) + [1 2 3];
-    f(dof,1) = fn(i,2:4)';
+    f = f.append(fn(i,2:4)',dof,1);
 end
 
 return;

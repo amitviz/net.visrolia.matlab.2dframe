@@ -2,9 +2,13 @@ function [Ks,Fs,T] = applyABCg(nodes,elements,Kg,Fg,ABCn)
 % Applies aligned boundary conditions
 
 ndof = 3;                      % degrees of freedom per node
+totaldof = 3*size(nodes,1);
 
 % Create a null transform matrix (i.e. an Identity matrix)
-T = eye(length(Fg));
+T = SparseMatrix;
+for i = 1:totaldof
+    T = T.append(1,i); 
+end
 
 % loop through rows of ABCn to construct transform matrix
 for i = 1:size(ABCn,1)
@@ -14,12 +18,16 @@ for i = 1:size(ABCn,1)
     theta = elementtheta(nodes,elements,element);   % angle of the element
     t = eye(3);
     t(1:2,1:2) = transform(theta);       % transform matrix for the element angle
-    gdof = ndof*(gnode-1) + 1:ndof; % global degrees of freedom
-    T(gdof,gdof) = t;           % put it in the appropriate position
+    gdof = ndof*(gnode-1) + [1:ndof]; % global degrees of freedom
+    T = T.append(t,gdof);           % put it in the appropriate position
+    T = T.append(-eye(3),gdof);     % take out the identity bits
 end
 
 % modify global force and stifness matrices to local coordinate system at
 %   selected nodes - the `starred' matrices
+Kg = Kg.toSparse(totaldof);
+Fg = Fg.toSparse(totaldof,1);
+T = T.toSparse(totaldof);
 Fs = T*Fg;
 Ks = T*Kg*T';
 
